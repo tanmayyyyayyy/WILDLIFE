@@ -90,6 +90,10 @@ td,th{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top;text-
   .opt{padding:12px 13px;font-size:.95rem}
 }
 @media (prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}}
+
+.clear-ans-btn{display:flex;align-items:center;gap:6px;background:transparent;color:var(--bad);border:1.5px solid var(--bad);border-radius:10px;padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;margin:4px 0 10px;transition:all .2s ease;opacity:.85}
+.clear-ans-btn:hover{background:var(--badbg);opacity:1;transform:translateY(-1px)}
+.clear-ans-btn:active{transform:translateY(0)}
 </style>
 </head>
 <body>
@@ -380,8 +384,10 @@ function draw(){
   if(Z.pal)h+=`<div class="pal-box"><div class="row" style="justify-content:space-between;margin-bottom:8px"><span class="mute" style="font-size:.85rem"><b>Question Grid</b> (${answered}/${n} answered)</span><button class="btn ghost" style="min-height:30px;padding:4px 10px;font-size:.8rem" onclick="Z.pal=false;draw()">Close ✕</button></div><div class="pal">${Z.ids.map((id,k)=>`<button class="pb ${Z.ans[k]!=null?"a":""} ${k==Z.i?"c":""}" onclick="Z.i=${k};Z.pal=false;draw();window.scrollTo({top:0,behavior:'smooth'})">${k+1}</button>`).join("")}</div></div>`;
   h+=`<p class="mute" style="font-size:.9rem">${esc(Z.title)}</p><p class="stem">${esc(q.q)}</p>`;
   q.o.forEach((o,j)=>{let c="opt";if(Z.instant&&done){if(j===q.a)c+=" ok";else if(j===a)c+=" bad"}else if(a===j)c+=" sel";
-    h+=`<button class="${c}" onclick="pick(${j})"><i>${L[j]}</i><span>${esc(o)}</span></button>`});
+    const disabled=(Z.instant&&done)?"disabled":"";
+    h+=`<button class="${c}" ${disabled} onclick="pick(${j})"><i>${L[j]}</i><span>${esc(o)}</span></button>`});
   if(Z.instant&&done){h+=`<p class="${a===q.a?"good":"wrong"}"><b>${a===q.a?"Correct.":"Not quite."}</b> Answer: ${L[q.a]}. ${esc(q.o[q.a])}</p>`;if(TRICKS[q.id])h+=`<div class="tip-box"><b>💡 Memory Trick:</b> ${esc(TRICKS[q.id])}</div>`;}
+  if(!Z.instant&&done)h+=`<button class="clear-ans-btn" onclick="clearAns()">✕ Remove answer</button>`;
   const last=Z.i===n-1;
   h+=`<div class="qnav"><button class="btn ghost" ${Z.i?"":"disabled"} onclick="haptic();go(-1)">‹ Prev</button>${last?"":`<button class="btn" onclick="haptic();go(1)">Next ›</button>`}<button class="btn ${last?"":"ghost"}" onclick="haptic();Z.ask=true;draw()">${Z.instant?"Finish":"Submit test"}</button></div>`;
   if(Z.ask)h+=`<div class="card" style="margin-top:14px"><b>${n-answered?`${n-answered} unanswered question${n-answered>1?"s":""}.`:"All questions answered."}</b> Submit now?<div class="row" style="margin-top:10px"><button class="btn" onclick="haptic();finish()">Yes, show results</button><button class="btn ghost" onclick="Z.ask=false;draw()">Keep going</button></div></div>`;
@@ -392,6 +398,11 @@ function pick(j){
   const q=QS[Z.ids[Z.i]];
   if(Z.instant){if(Z.ans[Z.i]!=null)return;Z.ans[Z.i]=j;const m=j===q.a?S.ok:S.miss;m[q.id]=(m[q.id]||0)+1;save()}
   else Z.ans[Z.i]=j;
+  draw();
+}
+function clearAns(){
+  haptic();
+  delete Z.ans[Z.i];
   draw();
 }
 function go(d){Z.i=Math.max(0,Math.min(Z.ids.length-1,Z.i+d));Z.ask=false;draw();window.scrollTo({top:0,behavior:'smooth'})}
