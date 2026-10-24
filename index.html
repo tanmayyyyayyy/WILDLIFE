@@ -94,6 +94,14 @@ td,th{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top;text-
 .clear-ans-btn{display:flex;align-items:center;gap:6px;background:transparent;color:var(--bad);border:1.5px solid var(--bad);border-radius:10px;padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;margin:4px 0 10px;transition:all .2s ease;opacity:.85}
 .clear-ans-btn:hover{background:var(--badbg);opacity:1;transform:translateY(-1px)}
 .clear-ans-btn:active{transform:translateY(0)}
+/* Mark-for-review */
+.pb.r{background:var(--warnbg);color:var(--warn);border-color:var(--warn)}
+.pb.r.a{background:var(--warn);color:#fff;border-color:var(--warn)}
+.mark-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--warn);border:1.5px solid var(--warn);border-radius:10px;padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;margin:4px 0 10px;transition:all .2s ease;opacity:.85}
+.mark-btn:hover{background:var(--warnbg);opacity:1;transform:translateY(-1px)}
+.mark-btn.active{background:var(--warnbg);opacity:1}
+.mark-btn:active{transform:translateY(0)}
+
 </style>
 </head>
 <body>
@@ -375,13 +383,13 @@ function home(){
 }
 function mock(){start("mock","Mock test · 100 questions",shuf(QS.map((q,i)=>i)).slice(0,100),false)}
 function week(n){let ids=QS.map((q,i)=>i).filter(i=>QS[i].w===n);if(shufWeek)ids=shuf(ids);start("week"+n,"Week "+n+": "+WK[n-1][1],ids,true)}
-function start(mode,title,ids,instant){clearInterval(timer);Z={mode,title,ids,instant,ans:{},i:0,t0:Date.now(),pal:false,ask:false};timer=setInterval(()=>{const e=$("tm");if(e)e.textContent=fmt(Date.now()-Z.t0)},1000);draw()}
+function start(mode,title,ids,instant){clearInterval(timer);Z={mode,title,ids,instant,ans:{},marked:{},i:0,t0:Date.now(),pal:false,ask:false};timer=setInterval(()=>{const e=$("tm");if(e)e.textContent=fmt(Date.now()-Z.t0)},1000);draw()}
 const fmt=ms=>{const s=ms/1000|0;return (s/60|0)+":"+String(s%60).padStart(2,"0")};
 function draw(){
   const q=QS[Z.ids[Z.i]],n=Z.ids.length,a=Z.ans[Z.i],done=a!=null,answered=Object.keys(Z.ans).length,L="ABCD";
   let h=`<div class="qtop"><div class="row" style="justify-content:space-between"><button class="btn ghost" style="min-height:36px;padding:6px 12px;font-size:.88rem" onclick="home()">✕ Exit</button><span class="mute"><b>${Z.i+1}</b> / ${n} · <span id="tm">${fmt(Date.now()-Z.t0)}</span></span><button class="btn ghost" style="min-height:36px;padding:6px 12px;font-size:.88rem" onclick="Z.pal=!Z.pal;draw()">${Z.pal?"Close Grid":"Grid ("+answered+"/"+n+")"}</button></div>
   <div class="bar"><i style="width:${answered/n*100}%"></i></div></div>`;
-  if(Z.pal)h+=`<div class="pal-box"><div class="row" style="justify-content:space-between;margin-bottom:8px"><span class="mute" style="font-size:.85rem"><b>Question Grid</b> (${answered}/${n} answered)</span><button class="btn ghost" style="min-height:30px;padding:4px 10px;font-size:.8rem" onclick="Z.pal=false;draw()">Close ✕</button></div><div class="pal">${Z.ids.map((id,k)=>`<button class="pb ${Z.ans[k]!=null?"a":""} ${k==Z.i?"c":""}" onclick="Z.i=${k};Z.pal=false;draw();window.scrollTo({top:0,behavior:'smooth'})">${k+1}</button>`).join("")}</div></div>`;
+  if(Z.pal)h+=`<div class="pal-box"><div class="row" style="justify-content:space-between;margin-bottom:8px"><span class="mute" style="font-size:.85rem"><b>Question Grid</b> (${answered}/${n} answered)</span><button class="btn ghost" style="min-height:30px;padding:4px 10px;font-size:.8rem" onclick="Z.pal=false;draw()">Close ✕</button></div><div class="pal">${Z.ids.map((id,k)=>`<button class="pb ${Z.ans[k]!=null?"a":""} ${Z.marked&&Z.marked[k]?"r":""} ${k==Z.i?"c":""}" onclick="Z.i=${k};Z.pal=false;draw();window.scrollTo({top:0,behavior:'smooth'})">${k+1}</button>`).join("")}</div></div>`;
   h+=`<p class="mute" style="font-size:.9rem">${esc(Z.title)}</p><p class="stem">${esc(q.q)}</p>`;
   q.o.forEach((o,j)=>{let c="opt";if(Z.instant&&done){if(j===q.a)c+=" ok";else if(j===a)c+=" bad"}else if(a===j)c+=" sel";
     const disabled=(Z.instant&&done)?"disabled":"";
@@ -389,6 +397,12 @@ function draw(){
   if(Z.instant&&done){h+=`<p class="${a===q.a?"good":"wrong"}"><b>${a===q.a?"Correct.":"Not quite."}</b> Answer: ${L[q.a]}. ${esc(q.o[q.a])}</p>`;if(TRICKS[q.id])h+=`<div class="tip-box"><b>💡 Memory Trick:</b> ${esc(TRICKS[q.id])}</div>`;}
   if(!Z.instant&&done)h+=`<button class="clear-ans-btn" onclick="clearAns()">✕ Remove answer</button>`;
   const last=Z.i===n-1;
+  const isMarked=Z.marked&&Z.marked[Z.i];
+  h+=`<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:4px">
+    <button class="mark-btn${isMarked?" active":""}" onclick="toggleMark()">
+      ${isMarked?"🔖 Marked for review":"🔖 Mark for review"}
+    </button>
+  </div>`;
   h+=`<div class="qnav"><button class="btn ghost" ${Z.i?"":"disabled"} onclick="haptic();go(-1)">‹ Prev</button>${last?"":`<button class="btn" onclick="haptic();go(1)">Next ›</button>`}<button class="btn ${last?"":"ghost"}" onclick="haptic();Z.ask=true;draw()">${Z.instant?"Finish":"Submit test"}</button></div>`;
   if(Z.ask)h+=`<div class="card" style="margin-top:14px"><b>${n-answered?`${n-answered} unanswered question${n-answered>1?"s":""}.`:"All questions answered."}</b> Submit now?<div class="row" style="margin-top:10px"><button class="btn" onclick="haptic();finish()">Yes, show results</button><button class="btn ghost" onclick="Z.ask=false;draw()">Keep going</button></div></div>`;
   $("app").innerHTML=h;
@@ -403,6 +417,13 @@ function pick(j){
 function clearAns(){
   haptic();
   delete Z.ans[Z.i];
+  draw();
+}
+function toggleMark(){
+  haptic();
+  if(!Z.marked)Z.marked={};
+  if(Z.marked[Z.i])delete Z.marked[Z.i];
+  else Z.marked[Z.i]=true;
   draw();
 }
 function go(d){Z.i=Math.max(0,Math.min(Z.ids.length-1,Z.i+d));Z.ask=false;draw();window.scrollTo({top:0,behavior:'smooth'})}
