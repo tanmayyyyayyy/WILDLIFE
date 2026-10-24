@@ -63,12 +63,132 @@ td,th{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top;text-
 .stem,.opt,.grid,.card{animation:fadeIn .25s cubic-bezier(.16,1,.3,1) both}
 @media (max-width:520px){h1{font-size:1.6rem}.stem{font-size:1.15rem}}
 @media (prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}}
+
+.tip-box{background:var(--okbg);border:1.5px solid var(--ok);border-radius:12px;padding:10px 14px;margin:10px 0;font-size:.92rem;line-height:1.45;animation:fadeIn .2s ease-out}
+:root[data-theme="dark"] .tip-box,@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tip-box{background:#153326;border-color:#3e8f66;color:#e6efea}}
+.trick-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));margin-top:12px}
+.trick-card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;font-size:.9rem;line-height:1.5;transition:transform .2s ease,box-shadow .2s ease}
+.trick-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.06);border-color:var(--pri)}
+.trick-card b.head{color:var(--pri);display:block;margin-bottom:6px;font-size:.95rem}
+.trick-card code{background:rgba(128,128,128,.12);padding:1px 5px;border-radius:4px;font-family:monospace;font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap" id="app"></div>
 <script>
 const QS=[{"id":"1-1","w":1,"n":1,"q":"Ecology is the scientific study of _____ that determine the distribution and abundance of organisms. (Fill in the blanks)","o":["statics","interactions","dynamics","habitat"],"a":1},{"id":"1-2","w":1,"n":2,"q":"Carolus Linnaeus is considered the father of:","o":["Biogeography","Modern taxonomy","Population ecology","Botanical geography"],"a":1},{"id":"1-3","w":1,"n":3,"q":"“Enquiry into plants” is a book written by","o":["Theophrastus","Linnaeus","Malthus","Humboldt"],"a":0},{"id":"1-4","w":1,"n":4,"q":"Who amongst these is considered the father of Biogeography?","o":["Theophrastus","Linnaeus","Malthus","Humboldt"],"a":3},{"id":"1-5","w":1,"n":5,"q":"Genetic adaptation refers to:","o":["High reproductive rate in one generation","Inheritable fitness","Physical strength of an individual","Short-term environmental comfort"],"a":1},{"id":"1-6","w":1,"n":6,"q":"Thomas Robert Malthus influenced studies in:","o":["Community ecology","Marine ecology","Population ecology","Behavioural ecology"],"a":2},{"id":"1-7","w":1,"n":7,"q":"Which approach tests ecological ideas through experiments?","o":["Theoretical approach","Field approach","Laboratory approach","Descriptive approach"],"a":2},{"id":"1-8","w":1,"n":8,"q":"Which approach mainly depends on direct observation of organisms in natural surroundings?","o":["Laboratory approach","Historical approach","Theoretical approach","Field approach"],"a":3},{"id":"1-9","w":1,"n":9,"q":"In the Greek word root of Ecology, logos refers to","o":["household","preservation","environment","study"],"a":3},{"id":"1-10","w":1,"n":10,"q":"Charles Darwin is associated with:","o":["The theory of ecosystem formation","The theory of taxonomy","The theory of botanical geography","The theory of evolution and natural selection"],"a":3},{"id":"2-1","w":2,"n":1,"q":"Hierarchy emerges almost inevitably through a wide variety of evolutionary processes, for the simple reason that hierarchical structures are (Fill in the blank)","o":["perfect","imperfect","stable","unstable"],"a":2},{"id":"2-2","w":2,"n":2,"q":"Which level is formed when similar cells and their extracellular matrix from the same origin together perform a specific function?","o":["Organ","Tissue","Organ system","Population"],"a":1},{"id":"2-3","w":2,"n":3,"q":"“The diversity that exists within an ecosystem” is","o":["alpha (α) biodiversity","beta (β) biodiversity","gamma (γ) biodiversity","delta (δ) biodiversity"],"a":0},{"id":"2-4","w":2,"n":4,"q":"“Groups of actually or potentially interbreeding natural populations, which are reproductively isolated from other such groups” is a definition of","o":["cells","species","ecosystems","biomes"],"a":1},{"id":"2-5","w":2,"n":5,"q":"The emergent principle can be stated as","o":["Whole = sum of parts","Whole < sum of parts","Whole > sum of parts","None of these"],"a":2},{"id":"2-6","w":2,"n":6,"q":"The smallest unit of life is the:","o":["Cell","Tissue","Organ","Organism"],"a":0},{"id":"2-7","w":2,"n":7,"q":"The diversity of genetic information present at the levels of phyla, families, species, populations and individuals is called:","o":["Ecosystem biodiversity","Species evenness","Genetic biodiversity","Species richness"],"a":2},{"id":"2-8","w":2,"n":8,"q":"The value of leaving use and non-use values for future generations is called:","o":["Altruistic value","Option value","Existence value","Bequest value"],"a":3},{"id":"2-9","w":2,"n":9,"q":"Value arising even though a resource is not being used is called:","o":["Direct value","Indirect value","Non-use value","Productive value"],"a":2},{"id":"2-10","w":2,"n":10,"q":"Species richness refers to:","o":["The distribution of individuals among different species","The genetic variation within one population","The number of ecosystems in a biome","The number of species present"],"a":3},{"id":"3-1","w":3,"n":1,"q":"I observe a bird take a tick out of another bird’s head and eat it. In the social context, this behaviour would be called","o":["tick hunting","auto grooming","allo grooming","foraging"],"a":2},{"id":"3-2","w":3,"n":2,"q":"Leech is an example of","o":["endoparasite","herbivore predator","parasitoid","ectoparasite"],"a":3},{"id":"3-3","w":3,"n":3,"q":"An ecological interaction in which both participating organisms are harmed is called","o":["mutualism","commensalism","competition","neutralism"],"a":2},{"id":"3-4","w":3,"n":4,"q":"Interspecific interaction occurs between","o":["members of different species","members of the same species","two organisms that are both benefited","two organisms that remain unaffected"],"a":0},{"id":"3-5","w":3,"n":5,"q":"The distance maintained by nesting penguins to avoid pecking from neighbours is related to","o":["herbivory","parasitoid pressure","prey switching","territorial spacing"],"a":3},{"id":"3-6","w":3,"n":6,"q":"A parasite that lives inside the body of its host is called","o":["ectoparasite","endoparasite","predator","commensal"],"a":1},{"id":"3-7","w":3,"n":7,"q":"Birds on giraffe are an example of","o":["colony","commensalism","protocooperation","allelopathy"],"a":2},{"id":"3-8","w":3,"n":8,"q":"Competition in which organisms directly consume a limited resource so that less remains for others is called","o":["interference competition","exploitative competition","apparent competition","neutral competition"],"a":1},{"id":"3-9","w":3,"n":9,"q":"Interference competition is also known as","o":["apparent competition","contest competition","niche competition","exploitative competition"],"a":1},{"id":"3-10","w":3,"n":10,"q":"The scientific study of animal behaviour is called","o":["behaviourism","ecology","ethology","prey-predator dynamics"],"a":2},{"id":"4-1","w":4,"n":1,"q":"Consider the food chain: Grass → Grasshopper → Frog → Snake → Hawk. In this food chain","o":["hawk is producer","hawk is consumer and carnivore","hawk is consumer and herbivore","hawk is decomposer"],"a":1},{"id":"4-2","w":4,"n":2,"q":"Trees → Birds → Parasites → Hyperparasites represents","o":["upright pyramid of numbers","inverted pyramid of numbers","spindle pyramid of numbers","dumb-bell pyramid of numbers"],"a":1},{"id":"4-3","w":4,"n":3,"q":"Glacial lakes are typical examples of","o":["eutrophic lakes","hypereutrophic lakes","oligotrophic lakes","mesotrophic lakes"],"a":2},{"id":"4-4","w":4,"n":4,"q":"In a grazing food chain, the first trophic level after producers is generally occupied by:","o":["Carnivores","Decomposers","Detritivores","Herbivores"],"a":3},{"id":"4-5","w":4,"n":5,"q":"Which statement correctly defines net primary production?","o":["Energy intercepted by producers from the Sun","Total energy lost during transfer between trophic levels","Gross primary production minus energy lost through respiration per unit time","Energy stored only in herbivore biomass"],"a":2},{"id":"4-6","w":4,"n":6,"q":"Which statement correctly defines gross primary production?","o":["Energy fixed through photosynthesis per unit time","Energy lost by organisms through respiration per unit time","Total number of producers in an ecosystem","Organic matter consumed by herbivores per unit time"],"a":0},{"id":"4-7","w":4,"n":7,"q":"Which chain best represents a detritus food chain?","o":["Fallen leaves → detritivores → small fish → large fish","Grass → chital → tiger","Rat → flea → parasitic protozoa","Phytoplankton → zooplankton → fish → sea lion"],"a":0},{"id":"4-8","w":4,"n":8,"q":"Consider the food chain: Grass → Grasshopper → Frog → Snake → Hawk. As we move up the food chain","o":["available energy decreases","available energy increases","available energy remains same","available energy is zero everywhere"],"a":0},{"id":"4-9","w":4,"n":9,"q":"Which statement correctly describes a decomposer?","o":["It only feeds on living plants","It consumes only primary consumers","It converts dead material into soil and recycles nutrients","It always occupies the quaternary trophic level"],"a":2},{"id":"4-10","w":4,"n":10,"q":"Which description best defines a heterotroph?","o":["An organism that converts sunlight directly into inorganic nutrients","An organism that cannot produce its own food and depends on organic carbon from other sources","An organism that uses chemical reactions to manufacture minerals","An organism that occupies only the first trophic level"],"a":1},{"id":"5-1","w":5,"n":1,"q":"In population dynamics, which pair represents additions to an existing population?","o":["Mortality and emigration","Natality and immigration","Mortality and natality","Immigration and emigration"],"a":1},{"id":"5-2","w":5,"n":2,"q":"Cover board surveys are typically used for sampling","o":["herpetofauna","fishes","large mammals","carnivores"],"a":0},{"id":"5-3","w":5,"n":3,"q":"Pan traps are used for sampling","o":["bees","butterflies","non-pollinator insects","pollinator insects"],"a":3},{"id":"5-4","w":5,"n":4,"q":"A sampling procedure such that each possible combination of sampling units out of the population has the same chance of being selected is referred to as","o":["Simple random sampling","Systematic sampling","Stratified sampling","Multistage sampling"],"a":0},{"id":"5-5","w":5,"n":5,"q":"The minimum replacement level fertility for a population to grow should be greater than","o":["1","2","3","4"],"a":1},{"id":"5-6","w":5,"n":6,"q":"A list of sampling units is called a:","o":["Sample","Sampling intensity","Sampling frame","Stratum"],"a":2},{"id":"5-7","w":5,"n":7,"q":"In capture-recapture method, the first stage involves:","o":["Counting faecal pellets","Removing trapped animals permanently","Estimating bait consumption","Capturing, marking and releasing animals"],"a":3},{"id":"5-8","w":5,"n":8,"q":"The logistic growth equation, when plotted, appears","o":["I shaped","J shaped","S shaped","O shaped"],"a":2},{"id":"5-9","w":5,"n":9,"q":"Employs a simple rule of selecting every kth unit starting with a number chosen at random from 1 to k as the random start","o":["Simple random sampling","Systematic sampling","Stratified sampling","Multistage sampling"],"a":1},{"id":"5-10","w":5,"n":10,"q":"Which of these is not a measure of absolute population density?","o":["total count","pelt count","capture-recapture method","removal method"],"a":1},{"id":"6-1","w":6,"n":1,"q":"A guild is a group of species that","o":["Occupy only one climax community","Have identical population size","Utilise resources in a similar way","Are confined to saline habitats"],"a":2},{"id":"6-2","w":6,"n":2,"q":"The climax near Tindni village is being controlled by disturbance by cattle. This is an example of","o":["climatic climax","edaphic climax","disclimax","catastrophic climax"],"a":2},{"id":"6-3","w":6,"n":3,"q":"Species abundance may be expressed in terms of","o":["Climate, soil and slope","Number of individuals, biomass or cover","Hydrosere, xerosere and halosere","Resistance, resilience and stability"],"a":1},{"id":"6-4","w":6,"n":4,"q":"Resistance refers to the ability of a community to","o":["Recover quickly after disturbance","Persist without change in the face of disturbance","Increase the number of pioneer species","Replace one seral stage with another"],"a":1},{"id":"6-5","w":6,"n":5,"q":"Importance value can be written as","o":["Relative density + Relative frequency × Relative dominance","Relative density × Relative frequency + Relative dominance","Relative density + Relative frequency + Relative dominance","Relative density × Relative frequency × Relative dominance"],"a":2},{"id":"6-6","w":6,"n":6,"q":"Secondary succession refers to succession that occurs","o":["On newly exposed rock or sand surfaces","In a saline body such as a marsh","After severe disturbance or removal of a pre-existing community","Only when climate controls the final community"],"a":2},{"id":"6-7","w":6,"n":7,"q":"Lithosere is an example of","o":["hydrosere","xerosere","psammosere","halosere"],"a":1},{"id":"6-8","w":6,"n":8,"q":"A transition area where two communities meet and integrate is called","o":["Habitat","Niche","Ecotone","Sere"],"a":2},{"id":"6-9","w":6,"n":9,"q":"Which of these is correct?","o":["Fundamental niche > Realised niche","Fundamental niche = Realised niche","Fundamental niche < Realised niche","a or b"],"a":3},{"id":"6-10","w":6,"n":10,"q":"Species richness refers to","o":["Number of species","Number of individuals of one species","Biomass of the dominant species","Basal area of all trees"],"a":0},{"id":"7-1","w":7,"n":1,"q":"In an estuary, species may use areas of","o":["high, intermediate, and low salinity","only high temperature and high fertility","only alpine wind and poor soil","only forest canopy and grassland patches"],"a":0},{"id":"7-2","w":7,"n":2,"q":"The movement of individuals away from their place of birth or hatching or seed production into a new habitat or area to survive and reproduce is called","o":["translocation","migration","dispersal","drifting"],"a":2},{"id":"7-3","w":7,"n":3,"q":"Transplantation experiments are used to find","o":["potential range","effective range","actual range","economic range"],"a":0},{"id":"7-4","w":7,"n":4,"q":"Pneumatophores are roots that h","o":["move downward to store excess salts","spread into sand dunes to stop wind erosion","grow upward from the ground to obtain air","become thorns to reduce transpiration"],"a":2},{"id":"7-5","w":7,"n":5,"q":"At night, cooler and denser air from upper hill areas flows down towards the valley. This wind pattern is called","o":["valley breeze","hill wind","ocean breeze","estuary current"],"a":1},{"id":"7-6","w":7,"n":6,"q":"Flamingos in the Rann of Kutch are associated with water bodies because they need","o":["high wind speeds and snow-covered slopes","food organisms in water and safe breeding conditions","dry deciduous leaves for summer feeding","tall coniferous trees for nesting"],"a":1},{"id":"7-7","w":7,"n":7,"q":"Estuaries are specialized habitats because they contain","o":["only freshwater throughout the year","only saline water throughout the year","only dry land and thorny shrubs","a meeting zone of freshwater and saline water"],"a":3},{"id":"7-8","w":7,"n":8,"q":"The movement of lions across the Gir landscape is an example of","o":["diffusion","secular dispersal","jump dispersal","drifting"],"a":0},{"id":"7-9","w":7,"n":9,"q":"Mangroves are adapted to areas that experience","o":["low salinity and permanent dryness","snow accumulation and alpine winds","deep desert sand with no water movement","high salinity and partial or complete inundation"],"a":3},{"id":"7-10","w":7,"n":10,"q":"Scarcity of food is a","o":["chemical factor","demographic factor","push factor","pull factor"],"a":2},{"id":"8-1","w":8,"n":1,"q":"Which of these correctly represents the process of habitat fragmentation and loss?","o":["Original forest → Dissection → Perforation → Fragmentation → Attrition","Original forest → Dissection → Attrition → Fragmentation → Perforation","Original forest → Dissection → Perforation → Attrition → Fragmentation","Original forest → Dissection → Fragmentation → Perforation → Attrition"],"a":0},{"id":"8-2","w":8,"n":2,"q":"Habitat degradation means","o":["complete removal of all organisms from an area","legal declaration of a protected area","breaking a forest into administrative zones","reduction in habitat quality for a given species"],"a":3},{"id":"8-3","w":8,"n":3,"q":"When area is reduced by 90% and z is taken as 0.30, species richness approximately becomes","o":["one-tenth of the original","half of the original","double the original","unchanged"],"a":1},{"id":"8-4","w":8,"n":4,"q":"Breaking a natural landscape into small isolated parcels within human-dominated land is called","o":["habitat restoration","habitat fragmentation","ex-situ preservation","seed dormancy"],"a":1},{"id":"8-5","w":8,"n":5,"q":"We prefer those areas for the creation of a conservation reserve where the level of threat is","o":["very high","medium","very low","non-existent"],"a":1},{"id":"8-6","w":8,"n":6,"q":"A very small population moves towards extinction mainly because of Allee effect, chance deaths, and related small-population problems. This is best described as","o":["habitat displacement","small population paradigm","reserve design","biodiversity repository"],"a":1},{"id":"8-7","w":8,"n":7,"q":"A population becomes smaller because its habitat is shrinking, competitors are increasing, and poaching is removing individuals. This situation is best studied under","o":["declining population paradigm","small population paradigm","island biogeography model","cryopreservation strategy"],"a":0},{"id":"8-8","w":8,"n":8,"q":"Which of these is a deterministic factor?","o":["environmental variation","forest fire","death rate","diseases"],"a":2},{"id":"8-9","w":8,"n":9,"q":"Roads, railways, dams, and similar structures contribute to fragmentation because they may act as","o":["mortality sources and physical barriers","seed collection centers","botanical repositories","cryopreservation facilities"],"a":0},{"id":"8-10","w":8,"n":10,"q":"The acronym HIPPO does not include","o":["habitat loss","invasive species","pollination","pollution"],"a":2},{"id":"9-1","w":9,"n":1,"q":"A proposed epoch marked by significant human impact on Earth’s geology and ecosystems is called?","o":["Holocene","Anthropocene","Pleistocene","Carboniferous"],"a":1},{"id":"9-2","w":9,"n":2,"q":"According to Malthusian model,","o":["Population grows in geometric progression, food supply increases in arithmetic progression","Population grows in geometric progression, food supply increases in geometric progression","Population grows in arithmetic progression, food supply increases in arithmetic progression","Population grows in arithmetic progression, food supply increases in geometric progression"],"a":0},{"id":"9-3","w":9,"n":3,"q":"Which of these is not a pillar of sustainability?","o":["environmental sustainability","economic sustainability","trans-boundary sustainability","social sustainability"],"a":2},{"id":"9-4","w":9,"n":4,"q":"The demographic transition sees a society move from","o":["high birth rate, low death rate to low birth rate, low death rate","low birth rate, high death rate to low birth rate, low death rate","high birth rate, high death rate to low birth rate, low death rate","high birth rate, high death rate to low birth rate, high death rate"],"a":2},{"id":"9-5","w":9,"n":5,"q":"Which of the following is listed as a theme of clean technology?","o":["Water purification","Predator-prey control","Migration of birds","Food chain length"],"a":0},{"id":"9-6","w":9,"n":6,"q":"When stalactites and stalagmites join together, they form a?","o":["Lagoon","Crevice","Terrace","Column"],"a":3},{"id":"9-7","w":9,"n":7,"q":"Which of these is a preventive check according to Malthus?","o":["foresight","vice","misery","flood"],"a":0},{"id":"9-8","w":9,"n":8,"q":"Which of these is a pillar of sustainability","o":["social sustainability","industrial sustainability","agricultural sustainability","trans-boundary sustainability"],"a":0},{"id":"9-9","w":9,"n":9,"q":"In cave formations, the deposits growing downward from the roof are called?","o":["Stalagmites","Columns","Stalactites","Sediment bars"],"a":2},{"id":"9-10","w":9,"n":10,"q":"Industrial processes such as the Haber process affect which biogeochemical cycle?","o":["Carbon cycle only","Water cycle only","Nitrogen cycle","Phosphorus cycle only"],"a":2},{"id":"10-1","w":10,"n":1,"q":"A community already affected by disease, weeds, pollutants, or livestock pressure is best described as which type of community?","o":["Pristine community","Climax community","Resistant community","Disturbed community"],"a":3},{"id":"10-2","w":10,"n":2,"q":"When an organism absorbs a toxic substance into its tissues faster than it loses it, the process is called:","o":["Biomagnification","Bioavailability","Bioaccumulation","Biodegradation"],"a":2},{"id":"10-3","w":10,"n":3,"q":"What percentage of marine plastic debris is stated to sink to the ocean bottom?","o":["15%","30%","50%","70%"],"a":3},{"id":"10-4","w":10,"n":4,"q":"Hydrocarbons derived directly from mineral oils are called:","o":["Pyrogenic hydrocarbons","Biogenic hydrocarbons","Aromatic hydrocarbons","Petrogenic hydrocarbons"],"a":3},{"id":"10-5","w":10,"n":5,"q":"“Any changes in natural or human systems that inadvertently increase vulnerability to climatic stimuli; an adaptation that does not succeed in reducing vulnerability but increases it instead” is a definition for","o":["adaptation","mitigation","maladaptation","malmitigation"],"a":2},{"id":"10-6","w":10,"n":6,"q":"A normal ecological community faces one large and infrequent disturbance and then returns close to its earlier condition. Which outcome is best represented?","o":["Long-term alteration","Recovery","Bioaccumulation","Habitat displacement"],"a":1},{"id":"10-7","w":10,"n":7,"q":"Macrodebris in the context of plastic debris has fragments of size","o":["> 20 mm","5–20 mm","< 5 mm","< 1 mm"],"a":0},{"id":"10-8","w":10,"n":8,"q":"The Deepwater Horizon incident is classified by origin as which kind of oil spill?","o":["Natural","Accidental","Intentional","Biogenic"],"a":1},{"id":"10-9","w":10,"n":9,"q":"Harmful effects caused by a single or short-term exposure are called:","o":["Chronic toxicity","Acute toxicity","Sub-lethal exposure","Bioavailability"],"a":1},{"id":"10-10","w":10,"n":10,"q":"Mesodebris in the context of plastic debris has fragments of size","o":["> 20 mm","5–20 mm","< 5 mm","< 1 mm"],"a":1},{"id":"11-1","w":11,"n":1,"q":"Which term refers to the total weight of organisms removed by fishing?","o":["Natural mortality","Recruitment","Growth","Yield to fishery"],"a":3},{"id":"11-2","w":11,"n":2,"q":"Ludwig’s ratchet predicts","o":["decreasing harvesting rate","constant harvesting rate","increasing harvesting rate","fluctuating harvesting rate"],"a":2},{"id":"11-3","w":11,"n":3,"q":"A deciduous forest in Madhya Pradesh was converted to a mine. After the mining operations were over, the pits were filled up with water and a lake was created. It is now visited by several migratory birds. This is an example of","o":["recovery","restoration","enhancement","replacement"],"a":3},{"id":"11-4","w":11,"n":4,"q":"Which of these is correct?","o":["The maximum sustainable yield is near the beginning of the sigmoidal curve","The maximum sustainable yield is near the mid-point of the sigmoidal curve","The maximum sustainable yield is near the end of the sigmoidal curve","None of these"],"a":1},{"id":"11-5","w":11,"n":5,"q":"Which of these is correct?","o":["R + G = M + F","R + M = G + F","R + F = M + G","R + G + M + F = 0"],"a":0},{"id":"11-6","w":11,"n":6,"q":"In a logistic growth curve, growth is slow near carrying capacity mainly because the population is:","o":["very small","newly introduced","close to the environmental limit","free from competition"],"a":2},{"id":"11-7","w":11,"n":7,"q":"What does absolute abundance measure?","o":["Relative catch per unit effort","Actual number of individuals present","Percentage change in population","Estimated trend in sightings"],"a":1},{"id":"11-8","w":11,"n":8,"q":"A root zone treatment plant is an example of","o":["phytoremediation","biological control","biomagnification","bioaccumulation"],"a":0},{"id":"11-9","w":11,"n":9,"q":"What is a major risk of introducing predators for pest control?","o":["The pest always becomes extinct immediately","The predator cannot reproduce under any condition","The predator reduces rainfall","The introduced predator may itself become a pest"],"a":3},{"id":"11-10","w":11,"n":10,"q":"Ecotoxicology studies toxic chemicals mainly at which broader levels?","o":["Individual atoms and molecules only","Population, community, ecosystem, and biosphere levels","Market demand and harvesting cost only","Crop yield and storage levels only"],"a":1}];
+const TRICKS={
+"1-1":"Ecology = scientific study of INTERACTIONS that determine distribution and abundance.",
+"1-2":"Linnaeus loved Labels (Taxonomy) → Father of modern taxonomy & binomial naming.",
+"1-3":"Theo-PHRASTUS = PLANTS ('Enquiry into plants').",
+"1-4":"HUMBOLDT traveled the globe → Father of BIOGEOGRAPHY.",
+"1-5":"Genes pass down generations → INHERITABLE fitness.",
+"1-6":"Malthusian trap = POPULATION ecology (geometric human growth vs arithmetic food).",
+"1-7":"Experiments belong in the LABORATORY approach.",
+"1-8":"Observing animals in nature = FIELD approach.",
+"1-9":"Logos = study / science (Oikos = household).",
+"1-10":"Darwin = Evolution & natural selection.",
+"2-1":"Nature builds hierarchies because hierarchical structures are STABLE.",
+"2-2":"Similar cells + ECM from same origin performing 1 function = TISSUE (Cell → Tissue → Organ).",
+"2-3":"Alpha (α) = within one ecosystem, Beta (β) = between ecosystems, Gamma (γ) = landscape/regional.",
+"2-4":"Actually or potentially interbreeding reproductively isolated groups = SPECIES definition (Ernst Mayr).",
+"2-5":"Emergence: The Whole is GREATER (>) than the sum of its parts.",
+"2-6":"Smallest unit of life = CELL.",
+"2-7":"Variation in genetic material at all levels = GENETIC biodiversity.",
+"2-8":"Leaving resources for future generations = BEQUEST value (bequeath to descendants).",
+"2-9":"Value arising even when resource is not used = NON-USE value.",
+"2-10":"Species richness = simply the NUMBER OF SPECIES present.",
+"3-1":"Allo = other bird's head (Allo-grooming; Auto-grooming = grooming oneself).",
+"3-2":"Leech feeds outside on skin = ECTOparasite (Ecto = outside).",
+"3-3":"Both interacting organisms harmed (- / -) = COMPETITION.",
+"3-4":"INTER-specific = between DIFFERENT species (like international). Intra = within same.",
+"3-5":"Penguins maintaining pecking distance = TERRITORIAL SPACING.",
+"3-6":"Lives INSIDE host body = ENDOparasite (Endo = inside).",
+"3-7":"Giraffe + bird = PROTOCOOPERATION (both benefit +,+ but association is non-obligatory).",
+"3-8":"Directly consuming resource so less remains for others = EXPLOITATIVE competition.",
+"3-9":"Interference competition is direct fighting/blocking = CONTEST competition.",
+"3-10":"Scientific study of animal behaviour = ETHOLOGY.",
+"4-1":"Hawk eats snakes = CONSUMER and CARNIVORE.",
+"4-2":"1 Tree → Many birds → More parasites → Hyperparasites = INVERTED pyramid of numbers.",
+"4-3":"Glacial meltwater has few/low nutrients = OLIGOTROPHIC ('oligo' = few).",
+"4-4":"First level after producers (plants) = HERBIVORES (Primary consumers).",
+"4-5":"NPP = Net Primary Production = Gross (GPP) minus Respiration loss (R).",
+"4-6":"GPP = GROSS total fixed by photosynthesis per unit time before respiration.",
+"4-7":"Detritus chain starts with DEAD organic matter (fallen leaves → detritivores).",
+"4-8":"Available energy DECREASES moving up trophic levels (10% transfer rule).",
+"4-9":"Decomposers break down dead biomass and RECYCLE NUTRIENTS into soil.",
+"4-10":"Heterotroph = cannot produce own food, depends on organic carbon from others.",
+"5-1":"Additions = Natality (births) + Immigration (moving in) [B + I].",
+"5-2":"Cover boards = HERPETOFAUNA (reptiles & amphibians seek moist dark ground under boards).",
+"5-3":"Pan traps = POLLINATOR insects (bright colored bowls filled with water attract bees/flies).",
+"5-4":"Every combination has exact same chance = SIMPLE RANDOM sampling.",
+"5-5":"2 parents need > 2 children for a population to grow above replacement level.",
+"5-6":"Complete list of sampling units = Sampling FRAME.",
+"5-7":"Capture-recapture stage 1 = Capturing, MARKING, and releasing.",
+"5-8":"Logistic population growth with carrying capacity K = S-shaped curve.",
+"5-9":"Selecting every kth unit with random start = SYSTEMATIC sampling.",
+"5-10":"Pelt count is an indirect index/harvest count, NOT absolute density.",
+"6-1":"GUILD = group of species utilizing resources in a SIMILAR WAY (e.g. fruit eaters).",
+"6-2":"Climax held in check by cattle disturbance = DISCLIMAX ('Dis' = Disturbance).",
+"6-3":"Abundance is measured as: Number of individuals, Biomass, or Cover.",
+"6-4":"RESISTANCE = Persisting without change (Resilience = recovering quickly after change).",
+"6-5":"Importance Value Index (IVI) = Relative density + Relative frequency + Relative dominance (ALL PLUS!).",
+"6-6":"Secondary succession = succession after severe disturbance where soil already exists.",
+"6-7":"Lithosere (rock surface) is a type of XEROSERE ('xero' = dry).",
+"6-8":"Transition zone between two communities = ECOTONE (known for high edge diversity).",
+"6-9":"Fundamental niche >= Realised niche (Realised is shrunk by competitors, so a or b).",
+"6-10":"Species richness = count/number of species.",
+"7-1":"Estuary salinity fluctuates with tides: high, intermediate, and low salinity.",
+"7-2":"Movement away from birthplace to settle & breed = DISPERSAL.",
+"7-3":"Transplantation experiments test POTENTIAL range (could they survive if moved there?).",
+"7-4":"PNEUMATOPHORES = breathing roots growing UPWARD for air ('pneuma' = lung/breath).",
+"7-5":"Night cool air sinking down hills into valleys = HILL WIND.",
+"7-6":"Flamingos in Rann of Kutch = food in water + safe breeding conditions.",
+"7-7":"Estuary = specialized meeting zone of FRESHWATER and SALINE water.",
+"7-8":"Lions moving gradually across continuous Gir terrain = DIFFUSION.",
+"7-9":"Mangroves are adapted to HIGH salinity and tidal INUNDATION.",
+"7-10":"Scarcity of food PUSHES animals away = PUSH factor.",
+"8-1":"DPFA sequence: Dissection → Perforation → Fragmentation → Attrition.",
+"8-2":"Degradation = Reduction in HABITAT QUALITY for a given species.",
+"8-3":"90% area loss with z=0.30: (0.10)^0.30 ≈ HALF (50%) of species remain.",
+"8-4":"Breaking landscape into small isolated parcels = HABITAT FRAGMENTATION.",
+"8-5":"Highest conservation return on investment = MEDIUM threat level.",
+"8-6":"Extinction vortex in tiny populations (Allee effect, drift) = SMALL population paradigm.",
+"8-7":"External agents of decline (poaching, shrinking habitat) = DECLINING population paradigm.",
+"8-8":"DEATH RATE is a deterministic factor (predictable vital rate, not random stochastic shock).",
+"8-9":"Roads & railways act as MORTALITY sources and physical BARRIERS.",
+"8-10":"HIPPO = Habitat, Invasive, Pollution, Population, Overharvesting (Pollination is NOT in HIPPO).",
+"9-1":"Epoch of significant human impact on Earth = ANTHROPOCENE ('anthropos' = human).",
+"9-2":"Malthus: Population = GEOMETRIC (1,2,4,8), Food supply = ARITHMETIC (1,2,3,4).",
+"9-3":"Sustainability pillars = Environmental, Economic, Social. (NOT trans-boundary).",
+"9-4":"Demographic transition: High birth & death → LOW birth & death.",
+"9-5":"Clean tech theme = WATER PURIFICATION.",
+"9-6":"Stalactite (ceiling) + Stalagmite (ground) join to form a COLUMN.",
+"9-7":"Malthus preventive check = FORESIGHT (conscious self-restraint).",
+"9-8":"The 3 pillars of sustainability are environmental, economic, and SOCIAL.",
+"9-9":"StalaCtite grows from the CEILING ('C'); StalaGmite from the GROUND ('G').",
+"9-10":"Haber process fixes atmospheric nitrogen into ammonia = NITROGEN cycle.",
+"10-1":"Community damaged by weed, disease, livestock = DISTURBED community.",
+"10-2":"Absorbing toxin faster than excreting it in 1 organism = BIOACCUMULATION.",
+"10-3":"70% of marine plastic debris sinks to the ocean bottom.",
+"10-4":"Derived directly from petroleum mineral oil = PETROGENIC hydrocarbons.",
+"10-5":"Adaptation that inadvertently worsens vulnerability = MALADAPTATION.",
+"10-6":"Returning close to original state after disturbance = RECOVERY.",
+"10-7":"MACROdebris is big: > 20 mm.",
+"10-8":"Deepwater Horizon was an ACCIDENTAL oil spill.",
+"10-9":"Single short-term exposure harmful effects = ACUTE toxicity (chronic = long term).",
+"10-10":"MESOdebris is medium size: 5 to 20 mm.",
+"11-1":"Total weight of fish harvested = YIELD to fishery.",
+"11-2":"Ludwig's ratchet: economic pressure causes INCREASING harvesting rate.",
+"11-3":"Mine pit turned into an artificial bird lake = REPLACEMENT (new ecosystem).",
+"11-4":"Maximum Sustainable Yield (MSY) is at the MID-POINT of sigmoidal curve.",
+"11-5":"Additions = Losses: R (Recruitment) + G (Growth) = M (Mortality) + F (Fishery).",
+"11-6":"Growth slows near K because population is CLOSE TO ENVIRONMENTAL LIMIT.",
+"11-7":"ABSOLUTE abundance = ACTUAL count/number of individuals present.",
+"11-8":"Root zone treatment = PHYTOREMEDIATION ('phyto' = plants cleaning water/soil).",
+"11-9":"Introduced predator for biocontrol may ITSELF BECOME A PEST (e.g. Cane Toad).",
+"11-10":"Ecotoxicology operates broadly: Population, Community, Ecosystem, and Biosphere."
+};
 const WK=[
 [1,"Introduction","Linnaeus (taxonomy), Theophrastus, Humboldt (biogeography), Malthus, Darwin; lab vs field approach; genetic adaptation"],
 [2,"Ecological Structure","Hierarchy and emergence (whole > sum), cell → tissue, alpha/beta/gamma diversity, species concept, bequest/option/non-use value"],
@@ -109,6 +229,59 @@ function home(){
   h+=`</div><h2>Revision guide</h2>
   <details open><summary>About this question bank</summary><p>Covers NPTEL Wild Life Ecology, Weeks 1 to 11, with 10 questions per week and 110 in total. Take the mock test to simulate the exam, then revise week by week and retry the questions you missed.</p>
   </details>
+  
+  <details open><summary>💡 High-Yield Memory Tricks & Shortcuts (Cheat sheet to remember all 110 answers)</summary>
+  <div class="trick-grid">
+    <div class="trick-card">
+      <b class="head">🧠 Landmark Scientists & Books</b>
+      • <b>Linnaeus</b>: Loved <i>Labels</i> → Modern taxonomy & binomial naming.<br>
+      • <b>Theophrastus</b>: <i>Theo-PHRASTUS</i> = <i>PLANTS</i> ("Enquiry into plants").<br>
+      • <b>Humboldt</b>: Traveled the globe → Father of <i>Biogeography</i>.<br>
+      • <b>Malthus</b>: <i>Population ecology</i> (geometric human growth vs arithmetic food).<br>
+      • <b>Darwin</b>: Natural selection & evolution.
+    </div>
+    <div class="trick-card">
+      <b class="head">🔄 Twin Traps & Crucial Distinctions</b>
+      • <b>Allo vs Auto grooming</b>: <i>Allo</i> = other bird's head; <i>Auto</i> = oneself.<br>
+      • <b>Ecto vs Endo parasite</b>: Leech on skin = <i>Ecto</i>; inside host = <i>Endo</i>.<br>
+      • <b>GPP vs NPP</b>: GPP is gross energy fixed; NPP = GPP - Respiration.<br>
+      • <b>Resistance vs Resilience</b>: Resistance = staying unchanged; Resilience = recovering.<br>
+      • <b>Stalactite vs Stalagmite</b>: Stala<b>C</b>tite from <b>C</b>eiling; Stala<b>G</b>mite from <b>G</b>round; both form a <b>Column</b>!
+    </div>
+    <div class="trick-card">
+      <b class="head">📐 Formulas & Sequences to Lock In</b>
+      • <b>Fragmentation Sequence (DPFA)</b>: <i>Dissection → Perforation → Fragmentation → Attrition</i>.<br>
+      • <b>Fishery Equation</b>: <code>R + G = M + F</code> (Recruitment + Growth = Mortality + Fishing).<br>
+      • <b>Importance Value Index (IVI)</b>: Density + Frequency + Dominance (<i>all sums, NO multiplication!</i>).<br>
+      • <b>Malthus Model</b>: Population = <i>Geometric</i> (1,2,4,8); Food = <i>Arithmetic</i> (1,2,3,4).
+    </div>
+    <div class="trick-card">
+      <b class="head">📏 Numbers & Percentages to Memorize</b>
+      • <b>Plastic debris sizes</b>: Macrodebris <code>&gt; 20 mm</code> | Mesodebris <code>5–20 mm</code>.<br>
+      • <b>Ocean plastic sink</b>: Exactly <code>70%</code> sinks to the ocean floor.<br>
+      • <b>Species-Area Loss</b>: 90% habitat loss with z = 0.30 leaves roughly <code>50% (half)</code> of species.<br>
+      • <b>Maximum Sustainable Yield (MSY)</b>: Located at the <code>mid-point</code> of the sigmoidal curve.<br>
+      • <b>Replacement Fertility</b>: Must be <code>&gt; 2</code> for population to grow.
+    </div>
+    <div class="trick-card">
+      <b class="head">🔍 Sampling Techniques Shortcuts</b>
+      • <b>Pan traps</b>: Bright colored pans attract <i>pollinator insects</i>.<br>
+      • <b>Cover boards</b>: Moist boards attract <i>herpetofauna</i> (reptiles & amphibians).<br>
+      • <b>Selecting every kth unit</b>: <i>Systematic sampling</i>.<br>
+      • <b>Every combo has equal chance</b>: <i>Simple random sampling</i>.<br>
+      • <b>Pelt count</b>: An indirect index, <i>NOT</i> absolute density.
+    </div>
+    <div class="trick-card">
+      <b class="head">🌱 Core Ecology Rules in 5 Words</b>
+      • <b>Emergent Principle</b>: Whole <code>&gt;</code> sum of parts.<br>
+      • <b>Disclimax</b>: Climax maintained by disturbance (e.g. cattle grazing).<br>
+      • <b>Ludwig's ratchet</b>: Harvest rate keeps <i>increasing</i>.<br>
+      • <b>Mine pit into bird lake</b>: <i>Replacement</i> (new ecosystem).<br>
+      • <b>Pneumatophores</b>: Breathing roots growing <i>upward</i> for air.<br>
+      • <b>HIPPO Acronym</b>: Habitat, Invasive, Pollution, Population, Overharvesting (<i>NO Pollination</i>).
+    </div>
+  </div>
+  </details>
   <details><summary>Week-wise focus topics</summary><div class="scroll"><table><tr><th>Week</th><th>Topic</th><th>Revise</th></tr>${WK.map(([n,t,f])=>`<tr><td>${n}</td><td>${esc(t)}</td><td>${esc(f)}</td></tr>`).join("")}</table></div></details>
   <details><summary>Look-alike questions that cause slips</summary><ul>${TRAPS.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></details>`;
   $("app").innerHTML=h;window.scrollTo({top:0,behavior:'smooth'});
@@ -125,7 +298,7 @@ function draw(){
   h+=`<p class="mute">${esc(Z.title)}</p><p class="stem">${esc(q.q)}</p>`;
   q.o.forEach((o,j)=>{let c="opt";if(Z.instant&&done){if(j===q.a)c+=" ok";else if(j===a)c+=" bad"}else if(a===j)c+=" sel";
     h+=`<button class="${c}" onclick="pick(${j})"><i>${L[j]}</i><span>${esc(o)}</span></button>`});
-  if(Z.instant&&done)h+=`<p class="${a===q.a?"good":"wrong"}"><b>${a===q.a?"Correct.":"Not quite."}</b> Answer: ${L[q.a]}. ${esc(q.o[q.a])}</p>`;
+  if(Z.instant&&done){h+=`<p class="${a===q.a?"good":"wrong"}"><b>${a===q.a?"Correct.":"Not quite."}</b> Answer: ${L[q.a]}. ${esc(q.o[q.a])}</p>`;if(TRICKS[q.id])h+=`<div class="tip-box"><b>💡 Memory Trick:</b> ${esc(TRICKS[q.id])}</div>`;}
   const last=Z.i===n-1;
   h+=`<div class="row" style="margin-top:14px"><button class="btn ghost" ${Z.i?"":"disabled"} onclick="go(-1)">Previous</button>${last?"":`<button class="btn" onclick="go(1)">Next</button>`}<button class="btn ${last?"":"ghost"}" onclick="Z.ask=true;draw()">${Z.instant?"Finish":"Submit test"}</button></div>`;
   if(Z.ask)h+=`<div class="card" style="margin-top:14px"><b>${n-answered?`${n-answered} unanswered question${n-answered>1?"s":""}.`:"All questions answered."}</b> Submit now?<div class="row" style="margin-top:10px"><button class="btn" onclick="finish()">Yes, show results</button><button class="btn ghost" onclick="Z.ask=false;draw()">Keep going</button></div></div>`;
@@ -145,7 +318,7 @@ function finish(){
   <h2>By week</h2>${Object.keys(by).map(w=>{const [a,b]=by[w];return `<div class="wk"><span>Week ${w}</span><div class="bar"><i style="width:${a/b*100}%"></i></div><span>${a}/${b}</span></div>`}).join("")}
   <div class="row" style="margin-top:16px">${ids.length?`<button class="btn" onclick="start('retry','Retry missed',shuf(${JSON.stringify(ids)}),true)">Retry ${ids.length} missed</button>`:""}<button class="btn ghost" onclick="mock()">New mock test</button></div>
   <h2>${wrong.length?"Review missed questions":"Perfect run"}</h2>`;
-  wrong.forEach(([q,a])=>{h+=`<div class="rv"><p><b>${esc(q.q)}</b></p><p class="wrong">Your answer: ${a==null?"not answered":esc(q.o[a])}</p><p class="good">Correct: ${esc(q.o[q.a])}</p></div>`});
+  wrong.forEach(([q,a])=>{h+=`<div class="rv"><p><b>${esc(q.q)}</b></p><p class="wrong">Your answer: ${a==null?"not answered":esc(q.o[a])}</p><p class="good">Correct: ${esc(q.o[q.a])}</p>`;if(TRICKS[q.id])h+=`<div class="tip-box" style="margin-top:6px"><b>💡 Memory Trick:</b> ${esc(TRICKS[q.id])}</div>`;h+=`</div>`});
   $("app").innerHTML=h;window.scrollTo({top:0,behavior:'smooth'});
 }
 addEventListener("keydown",e=>{if(!Z||Z.done||e.metaKey||e.ctrlKey)return;const k=e.key.toLowerCase(),i="abcd1234".indexOf(k);
