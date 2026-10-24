@@ -91,9 +91,11 @@ td,th{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top;text-
 }
 @media (prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}}
 
-.clear-ans-btn{display:flex;align-items:center;gap:6px;background:transparent;color:var(--bad);border:1.5px solid var(--bad);border-radius:10px;padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;margin:4px 0 10px;transition:all .2s ease;opacity:.85}
-.clear-ans-btn:hover{background:var(--badbg);opacity:1;transform:translateY(-1px)}
-.clear-ans-btn:active{transform:translateY(0)}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 12px}
+.clear-ans-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--bad);border:1.5px solid var(--bad);border-radius:10px;padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s ease;opacity:.85}
+.clear-ans-btn:hover:not(:disabled){background:var(--badbg);opacity:1;transform:translateY(-1px)}
+.clear-ans-btn:active:not(:disabled){transform:translateY(0)}
+.clear-ans-btn:disabled,.clear-ans-btn.dim{opacity:.32;cursor:not-allowed;border-style:dashed;transform:none!important}
 /* Mark-for-review */
 .pb.r{background:var(--warnbg);color:var(--warn);border-color:var(--warn)}
 .pb.r.a{background:var(--warn);color:#fff;border-color:var(--warn)}
@@ -395,13 +397,13 @@ function draw(){
     const disabled=(Z.instant&&done)?"disabled":"";
     h+=`<button class="${c}" ${disabled} onclick="pick(${j})"><i>${L[j]}</i><span>${esc(o)}</span></button>`});
   if(Z.instant&&done){h+=`<p class="${a===q.a?"good":"wrong"}"><b>${a===q.a?"Correct.":"Not quite."}</b> Answer: ${L[q.a]}. ${esc(q.o[q.a])}</p>`;if(TRICKS[q.id])h+=`<div class="tip-box"><b>💡 Memory Trick:</b> ${esc(TRICKS[q.id])}</div>`;}
-  if(!Z.instant&&done)h+=`<button class="clear-ans-btn" onclick="clearAns()">✕ Remove answer</button>`;
+
   const last=Z.i===n-1;
   const isMarked=Z.marked&&Z.marked[Z.i];
-  h+=`<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:4px">
-    <button class="mark-btn${isMarked?" active":""}" onclick="toggleMark()">
-      ${isMarked?"🔖 Marked for review":"🔖 Mark for review"}
-    </button>
+  const canClear=done&&(!Z.instant);
+  h+=`<div class="action-row">
+    <button class="clear-ans-btn${done?"":" dim"}" ${canClear?"":"disabled"} onclick="clearAns()">✕ Remove answer</button>
+    <button class="mark-btn${isMarked?" active":""}" onclick="toggleMark()">${isMarked?"🔖 Marked":"🔖 Mark for review"}</button>
   </div>`;
   h+=`<div class="qnav"><button class="btn ghost" ${Z.i?"":"disabled"} onclick="haptic();go(-1)">‹ Prev</button>${last?"":`<button class="btn" onclick="haptic();go(1)">Next ›</button>`}<button class="btn ${last?"":"ghost"}" onclick="haptic();Z.ask=true;draw()">${Z.instant?"Finish":"Submit test"}</button></div>`;
   if(Z.ask)h+=`<div class="card" style="margin-top:14px"><b>${n-answered?`${n-answered} unanswered question${n-answered>1?"s":""}.`:"All questions answered."}</b> Submit now?<div class="row" style="margin-top:10px"><button class="btn" onclick="haptic();finish()">Yes, show results</button><button class="btn ghost" onclick="Z.ask=false;draw()">Keep going</button></div></div>`;
