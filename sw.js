@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wildlife-v1';
+const CACHE_NAME = 'wildlife-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -23,18 +23,30 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+// Network-first for HTML, Cache-first for static assets
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      const fetchPromise = fetch(event.request).then(networkResponse => {
-        if (networkResponse && networkResponse.status === 200) {
-          const clone = networkResponse.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+  const url = new URL(event.request.url);
+  
+  if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/') || url.pathname === '/WILDLIFE') {
+    event.respondWith(
+      fetch(event.request).then(response => {
+        if (response && response.status === 200) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
         }
-        return networkResponse;
-      }).catch(() => cached);
-      return cached || fetchPromise;
-    })
-  );
+        return response;
+      }).catch(() => caches.match(event.request) || caches.match('./index.html'))
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
+        if (response && response.status === 200) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        }
+        return response;
+      }))
+    );
+  }
 });
